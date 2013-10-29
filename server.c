@@ -11,14 +11,13 @@
 #include <sys/socket.h>
 #include <netinet/in.h>
 #include <arpa/inet.h>
+#include <signal.h>
 
 #include "server.h"
 #include "chat.h"
 
-#include "signal.h"
-
 #define PORT 1337
-#define S_VERSION "0.0.1"
+#define S_VERSION "0.0.2.0"
 
 int socket_fd;
 unsigned char *msg_buf;
@@ -27,60 +26,10 @@ struct user **logged_in;
 FILE *chatdat;
 
 int main(int argc, char *argv[]) {
-	chatdat = fopen("chat.dat", "rw");
-	if (chatdat == NULL)
-		error("trying to open chat.dat");
-	all_users = chatdat_parse_users(chatdat);
-
-	int new_socket_fd; // socket descriptor for new connection
-	struct sockaddr_in host_addr, // server address struct
-		client_addr; // client address struct
-	socklen_t sin_size; // size of address struct
-	int yes = 1;
-	
-	char version_str[30];
-	sprintf(version_str, "Chatness Server v%s", S_VERSION);
-	slog(version_str);
-
-	slog("Begin initialization...");
-
-	slog("Opening socket");
-	if ((socket_fd = socket(PF_INET, SOCK_STREAM, 0)) == -1) // open stream socket, ip
-		error("opening socket");
-
-	slog("Making address reusable");
-	if (setsockopt(socket_fd, SOL_SOCKET, SO_REUSEADDR, &yes, sizeof(int)) == -1) // reuse address
-		error("setting socket option SO_REUSEADDR");
-
-	// host address stuct
-	host_addr.sin_family = AF_INET;
-	host_addr.sin_port = htons(PORT);
-	host_addr.sin_addr.s_addr = 0;
-	memset(&host_addr.sin_zero, '\0', 8); // zero out rest of struct
-
-	char port_str[20];
-	sprintf(port_str, "Binding to port %i", PORT);
-	slog(port_str);
-
-	if (bind(socket_fd, (struct sockaddr *)&host_addr, sizeof(struct sockaddr)) == -1) // bind to port 1337
-		error("binding to socket");
-
-	slog("Attempting to listen");
-	if (listen(socket_fd, 5) == -1) // attempt to listen
-		error("listening on socket");
-
-	sin_size = sizeof(struct sockaddr_in);
-
-	slog("Initialisation complete, accepting connections!");
-	while (1) {
-		new_socket_fd = accept(socket_fd, (struct sockaddr *)&client_addr, &sin_size); // accept connection
-		int me = fork();
-		if (me == 0) {
-			signal(SIGINT, sighandle);
-			signal(SIGTERM, sighandle);
-			process_con(new_socket_fd, &client_addr);
-		}
-	}
+	print_version();
+	open_chatdat();
+	init_net();
+	serve();
 }
 
 void process_con(int socket_fd, struct sockaddr_in *client_addr) {
@@ -193,4 +142,68 @@ void prompt_user_login(int socket_fd, struct sockaddr_in *client_addr) { //TODO 
 
 void send_help(int socket_fd) {
 	send_msg(socket_fd, "lol?");
+}
+
+void print_version() {
+	char version_str[30];
+	sprintf(version_str, "Chatness Server v%s", S_VERSION);
+	slog(version_str);
+}
+
+void open_chatdat() {
+	slog("Opening chat.dat");
+	chatdat = fopen("chat.dat", "rw");
+	if (chatdat == NULL)
+		error("trying to open chat.dat");
+	all_users = chatdat_parse_users(chatdat);
+}
+
+void init_net() {
+	struct sockaddr_in host_addr; // server address struct
+	int yes = 1;
+
+	slog("Begin network initialization...");
+
+	slog("Opening socket");
+	if ((socket_fd = socket(PF_INET, SOCK_STREAM, 0)) == -1) // open stream socket, ip
+		error("opening socket");
+
+	slog("Making address reusable");
+	if (setsockopt(socket_fd, SOL_SOCKET, SO_REUSEADDR, &yes, sizeof(int)) == -1) // reuse address
+		error("setting socket option SO_REUSEADDR");
+
+	// host address stuct
+	host_addr.sin_family = AF_INET;
+	host_addr.sin_port = htons(PORT);
+	host_addr.sin_addr.s_addr = 0;
+	memset(&host_addr.sin_zero, '\0', 8); // zero out rest of struct
+
+	char port_str[20];
+	sprintf(port_str, "Binding to port %i", PORT);
+	slog(port_str);
+
+	if (bind(socket_fd, (struct sockaddr *)&host_addr, sizeof(struct sockaddr)) == -1) // bind to port 1337
+		error("binding to socket");
+
+	slog("Attempting to listen");
+	if (listen(socket_fd, 5) == -1) // attempt to listen
+		error("listening on socket");	
+}
+
+void serve() {
+	int new_socket_fd; // socket descriptor for new connection
+	struct sockaddr_in client_addr; // client address struct
+	socklen_t sin_size; // size of address struct
+	sin_size = sizeof(struct sockaddr_in);
+
+	slog("Initialization complete, accepting connections!");
+	while (1) {
+		new_socket_fd = accept(socket_fd, (struct sockaddr *)&client_addr, &sin_size); // accept connection
+		int me = fork();
+		if (me == 0) {
+			signal(SIGINT, sighandle);
+			signal(SIGTERM, sighandle);
+			process_con(new_socket_fd, &client_addr);
+		}
+	}
 }

@@ -15,7 +15,7 @@
 #include "chat.h"
 
 void error(char *err_msg) {
-	fprintf(stderr, "An error occurred while %s", err_msg);
+	fprintf(stderr, "An error occurred while %s\n", err_msg);
 	exit(1);
 }
 
@@ -210,10 +210,15 @@ int chatdat_valid_string(const char *string) {
 
 struct user *get_user(const char *username, struct user *start) {
 	while (start->next != NULL) {
-		if (!strcmp(username, start->username))
+		fprintf(stderr, "Is %s = %s? ", username, start->username);
+		if (!strcmp(username, start->username)) {
+			printf("Yes!\n");
 			return start;
+		}
+		printf("Nope.\n");
 		start = start->next;
 	}
+	printf("NO USERS.\n");
 	return NULL;
 }
 

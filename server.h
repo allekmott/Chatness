@@ -19,6 +19,12 @@ typedef struct client_msg_s {
 } client_msg;
 
 /**
+ * Print welcome and version number.
+ * @since 0.0.2.0
+ **/
+void print_version();
+
+/**
  * Initialize communications with a requesting client.
  * @since 0.0.1
 **/
@@ -66,3 +72,21 @@ void prompt_user_login(int socket_fd, struct sockaddr_in *client_addr);
  * @since 0.0.2
 **/
 void send_help(int socket_fd);
+
+/**
+ * Open chat.dat and (hopefully) parse users from it.
+ * @since 0.0.2
+ **/
+void open_chatdat();
+
+/**
+ * Initialize network communications.
+ * @since 0.0.2.0
+ **/
+void init_net();
+
+/**
+ * Handle requests and such.
+ * @since 0.0.2.0
+ **/
+void serve();
