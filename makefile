@@ -1,5 +1,5 @@
 # Chatness makefile
-# Created: 28/10/2013
+# Created: 28.10.2013
 # Author: Allek Mott
 
 CC=gcc

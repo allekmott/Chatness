@@ -17,7 +17,7 @@
 #include "chat.h"
 
 #define PORT 1337
-#define S_VERSION "0.0.2.0"
+#define S_VERSION "0.0.2.1"
 
 int socket_fd;
 unsigned char *msg_buf;
@@ -71,7 +71,7 @@ void process_con(int socket_fd, struct sockaddr_in *client_addr) {
 		//slog(msg_buf);
 
 		// construct client_msg struct
-		client_msg msg_s;
+		struct client_msg msg_s;
 		msg_s.socket_fd = socket_fd;
 		msg_s.client_addr = client_addr;
 		msg_s.msg = msg_buf;
@@ -83,7 +83,7 @@ void process_con(int socket_fd, struct sockaddr_in *client_addr) {
 	cleanleave(); // DAJSLKJFSOSAJDOI
 }
 
-void process_msg(client_msg *msg_s) {
+void process_msg(struct client_msg *msg_s) {
 	char proc_msg_str[msg_s->len + 40];
 	char addr_str[20];
 	

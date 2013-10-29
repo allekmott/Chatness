@@ -11,12 +11,12 @@
  * Data structure for message received from a client.
  * @since 0.0.1
 **/
-typedef struct client_msg_s {
+struct client_msg {
 	int socket_fd;
 	struct sockaddr_in *client_addr;
 	const char *msg;
 	int len;
-} client_msg;
+}
 
 /**
  * Print welcome and version number.
@@ -34,7 +34,7 @@ void process_con(int socket_fd, struct sockaddr_in *client_addr); // process con
  * Process a client message.
  * @since 0.0.1
 **/
-void process_msg(client_msg * msg_s); // process a message
+void process_msg(struct client_msg * msg_s); // process a message
 
 /**
  * Log a message to the server console, as well as (eventually)
