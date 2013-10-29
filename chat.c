@@ -14,6 +14,8 @@
 
 #include "chat.h"
 
+// TODO: MYSQL THIS CRAP. no. more. chat.dat.
+
 void error(char *err_msg) {
 	fprintf(stderr, "An error occurred while %s\n", err_msg);
 	exit(1);
