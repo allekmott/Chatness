@@ -16,7 +16,7 @@ struct client_msg {
 	struct sockaddr_in *client_addr;
 	const char *msg;
 	int len;
-}
+};
 
 /**
  * Print welcome and version number.

@@ -126,7 +126,7 @@ struct user *chatdat_parse_users(FILE *chatdat) {
 		}
 	}
 
-	printf("Total of %i users parsed.\n", (cur_user_i + 1));
+	printf("Total of %i users parsed.\n", (cur_user_i));
 
 	struct user *start = users[0];
 	free(users);
@@ -189,7 +189,7 @@ struct user *chatdat_parse_uline(const char *line) {
 		return NULL;
 	}
 
-	//print_user_info(u);
+	print_user_info(u);
 
 	return u;
 }
