@@ -1,0 +1,17 @@
+# ChatDat v1.0
+# This is a commented line
+
+
+# Blank lines are ignored
+# Format of user string is shown below
+# $user_name|password[(soon)|chat_rooms (separated by ',')]
+
+$allek|maizzles
+
+# Also, chat rooms are defined in this file as follows:
+# @room_id|room_name
+
+@0|lulziez
+
+# Note that the $ or @ must be the first character in the line,
+# or the data will be ignored.
