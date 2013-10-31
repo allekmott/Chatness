@@ -10,6 +10,13 @@
 #ifndef SERVER_H
 #define SERVER_H
 
+
+#define PORT 1337
+#define S_VERSION "0.0.2.5"
+
+#define MODE_UVALID 0 // run w/ db (validate via db)
+#define MODE_NODB 1 // run w/o db (only user validation = name)
+
 /**
  * Handle command-line arguments.
  * @since 0.0.2.3
@@ -26,6 +33,8 @@ struct client_msg {
 	const char *msg;
 	int len;
 };
+
+
 
 /**
  * Print welcome and version number.

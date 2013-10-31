@@ -19,8 +19,6 @@
 #include "chat.h"
 #include "db.h"
 
-#define PORT 1337
-#define S_VERSION "0.0.2.4"
 
 int socket_fd;
 char *msg_buf;
@@ -28,8 +26,6 @@ static struct user *all_users;
 struct user **logged_in;
 FILE *chatdat;
 
-#define MODE_UVALID 0 // run w/ db (validate via db)
-#define MODE_NODB 1 // run w/o db (only user validation = name)
 int server_mode = MODE_UVALID;
 
 

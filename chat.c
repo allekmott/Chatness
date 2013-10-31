@@ -94,7 +94,6 @@ struct user *chatdat_parse_users(FILE *chatdat) {
 	if (chatdat == NULL)
 		error("parsing chat.dat file");
 
-	#define USER_BUFFER_SIZE 20
 	size_t ubuffer_byte_size = sizeof(struct user *) * USER_BUFFER_SIZE;
 
 	struct user **users = (struct user **) malloc(ubuffer_byte_size); // array of users 0-19
@@ -252,7 +251,6 @@ void free_user_chain(struct user *start) {
 
 
 char *read_line(FILE *file) {
-	#define LINE_BUFFER_SIZE 128
 
 	char *line;
 	int buffer_sizes,

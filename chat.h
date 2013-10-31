@@ -78,6 +78,8 @@ char *login_err_txt(int err_code);
 **/
 struct user *chatdat_parse_users(FILE *chatdat);
 
+#define USER_BUFFER_SIZE 20
+
 // CHATDAT LINE TYPES
 #define CHATDAT_UNKNOWN -1
 #define CHATDAT_BLANK 0
@@ -155,5 +157,7 @@ void free_user_chain(struct user *start);
  * @since 0.0.2
 **/
 char *read_line(FILE *file);
+
+#define LINE_BUFFER_SIZE 128
 
 #endif
