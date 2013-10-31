@@ -8,6 +8,12 @@
 #include <arpa/inet.h>
 
 /**
+ * Handle command-line arguments.
+ * @since 0.0.2.3
+ **/
+void handle_args(int argc, char *argv[]);
+
+/**
  * Data structure for message received from a client.
  * @since 0.0.1
 **/

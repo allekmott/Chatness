@@ -15,9 +15,10 @@
 
 #include "server.h"
 #include "chat.h"
+#include "db.h"
 
 #define PORT 1337
-#define S_VERSION "0.0.2.1"
+#define S_VERSION "0.0.2.3"
 
 int socket_fd;
 unsigned char *msg_buf;
@@ -25,11 +26,24 @@ static struct user *all_users;
 struct user **logged_in;
 FILE *chatdat;
 
+#define MODE_UVALID = 0 // run w/ db (validate via db)
+#define MODE_NODB = 1 // run w/o db (only user validation = name)
+unsigned int server_mode = MODE_UVALID;
+
+
 int main(int argc, char *argv[]) {
+	handle_args(argc, argv);
+
+	if (server_mode == MODE_UVALID)
+		dbconfig();
+
 	print_version();
-	open_chatdat();
 	init_net();
 	serve();
+}
+
+void handle_args(int argc, char *argv[]) {
+	// TODO that arg lib thing...
 }
 
 void process_con(int socket_fd, struct sockaddr_in *client_addr) {
@@ -108,7 +122,7 @@ void flush(char *buf) {
 
 void sighandle(int signal) {
 	slog("\nSignal received, freeing buffer memory.");
-	
+	cleanleave();
 }
 
 void cleanleave() {
