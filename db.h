@@ -10,11 +10,17 @@
 #ifndef DB_H
 #define DB_H
 
+struct database {
+	const char *addr;
+	const char *user;
+	const char *pass;
+};
+
 /**
- * Read server config and connect to database.
+ * Connect to database.
  * @since 0.0.2.3
  **/
-void db_config();
+struct database *db_connect();
 
 /**
  * Read server.conf if it exists.

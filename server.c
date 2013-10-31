@@ -36,8 +36,10 @@ int server_mode = MODE_UVALID;
 int main(int argc, char *argv[]) {
 	handle_args(argc, argv);
 
+	struct database *db;
+
 	if (server_mode == MODE_UVALID)
-		db_config();
+		db = db_connect();
 
 	print_version();
 	init_net();

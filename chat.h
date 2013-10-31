@@ -5,7 +5,7 @@
 **/
 
 #ifndef CHAT_H
-#define USER_H
+#define CHAT_H
 
 /**
  * Print error message and exit.
@@ -33,7 +33,6 @@ int get_line(int sockfd, char *dest_buffer); // 0.0.1
 **/
 int sget_line(int sockfd, char *dest_buffer);
 
-#ifndef USER_STRUCT
 /**
  * Data structure for user
  * @since 0.0.2
@@ -43,8 +42,6 @@ struct user {
 	const char *password;
 	struct user *next;
 };
-#define USER_STRUCT
-#endif
 
 // LOGIN ERROR CODES
 #define LOGIN_GOOD 0
