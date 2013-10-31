@@ -5,7 +5,9 @@
 CC=gcc
 CFLAGS=
 
-DEPS=chat.h server.h
+DEPS=chat.h server.h db.h
+
+SERVER_DEPS = chat.o server.o db.o
 
 
 %.o: %.c $(DEPS)
@@ -13,7 +15,7 @@ DEPS=chat.h server.h
 
 .PHONY: server
 
-server: chat.o server.o
+server: $(SERVER_DEPS)
 	$(CC) -o $@ $^ $(CFLAGS)
 
 .PHONY: all

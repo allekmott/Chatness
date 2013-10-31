@@ -9,15 +9,19 @@
 
 #include "chat.h"
 
-void dbconfig() {
+void db_config() {
 	FILE *sconfig;
 	if ((sconfig == fopen("server.conf", "rw")) == NULL) {
 		// here
-		printf("No server.conf.")
+		printf("No server.conf.");
 	}
 }
 
+void db_read_sconfig(FILE *sconfig) {
 
-int user_exists(char *username) {
+}
+
+
+int db_user_exists(char *username) {
 
 }

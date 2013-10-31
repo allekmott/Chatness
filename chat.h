@@ -4,6 +4,9 @@
  * @author Allek
 **/
 
+#ifndef CHAT_H
+#define USER_H
+
 /**
  * Print error message and exit.
  * @since 0.0.1
@@ -14,13 +17,13 @@ void error(char *err_msg); // 0.0.1
  * Send message with provided socket file descriptor.
  * @since 0.0.1
 **/
-int send_msg(int sockfd, unsigned char *buffer); // 0.0.1
+int send_msg(int sockfd, char *buffer); // 0.0.1
 
 /**
  * Receive a message from the provided socket file descriptor.
  * @since 0.0.1
 **/
-int get_line(int sockfd, unsigned char *dest_buffer); // 0.0.1
+int get_line(int sockfd, char *dest_buffer); // 0.0.1
 
 /**
  * Receive a message from the provided socket file descriptor,
@@ -28,8 +31,9 @@ int get_line(int sockfd, unsigned char *dest_buffer); // 0.0.1
  * it exceeds the buffer size.
  * @since 0.0.2
 **/
-int sget_line(int sockfd, unsigned char *dest_buffer);
+int sget_line(int sockfd, char *dest_buffer);
 
+#ifndef USER_STRUCT
 /**
  * Data structure for user
  * @since 0.0.2
@@ -39,6 +43,8 @@ struct user {
 	const char *password;
 	struct user *next;
 };
+#define USER_STRUCT
+#endif
 
 // LOGIN ERROR CODES
 #define LOGIN_GOOD 0
@@ -152,3 +158,5 @@ void free_user_chain(struct user *start);
  * @since 0.0.2
 **/
 char *read_line(FILE *file);
+
+#endif

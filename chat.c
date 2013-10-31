@@ -21,7 +21,7 @@ void error(char *err_msg) {
 	exit(1);
 }
 
-int send_msg(int sockfd, unsigned char *buffer) {
+int send_msg(int sockfd, char *buffer) {
 	/*char debug[20];
 	sprintf(debug, "Sending %li byte message.", strlen(buffer));
 	fprintf(stderr, "%s\n", debug);*/
@@ -38,11 +38,11 @@ int send_msg(int sockfd, unsigned char *buffer) {
 	return sent;
 }
 
-int get_line(int sockfd, unsigned char *dest_buffer) {
+int get_line(int sockfd, char *dest_buffer) {
 
 	//fprintf(stderr, "Gettin that line shiz.\n");
 
-	unsigned char *current;
+	char *current;
 	current = dest_buffer;
 	int result;
 	while ((result = recv(sockfd, current, 1, 0)) == 1) {

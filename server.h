@@ -7,6 +7,9 @@
 #include <netinet/in.h>
 #include <arpa/inet.h>
 
+#ifndef SERVER_H
+#define SERVER_H
+
 /**
  * Handle command-line arguments.
  * @since 0.0.2.3
@@ -96,3 +99,5 @@ void init_net();
  * @since 0.0.2.0
  **/
 void serve();
+
+#endif
