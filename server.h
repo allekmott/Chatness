@@ -10,7 +10,6 @@
 #ifndef SERVER_H
 #define SERVER_H
 
-
 #define PORT 1337
 #define S_VERSION "0.0.2.5"
 
@@ -33,8 +32,6 @@ struct client_msg {
 	const char *msg;
 	int len;
 };
-
-
 
 /**
  * Print welcome and version number.
