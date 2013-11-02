@@ -13,7 +13,7 @@
 
 int db_connect(struct database_conf *db) {
 	printf("Connecting to database...\n");
-	printf("Database hostname: %s\n", db->addr);
+	printf("Database hostname: %s\n", db->host);
 	free(db);
 }
 

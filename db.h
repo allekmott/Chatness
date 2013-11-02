@@ -11,7 +11,7 @@
 #define DB_H
 
 struct database_conf {
-	const char *addr;
+	const char *host;
 	const char *user;
 	const char *pass;
 };

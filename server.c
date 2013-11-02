@@ -244,9 +244,9 @@ struct sconfig *parse_sconfig() {
 		if (key == NULL || value == NULL)
 			continue;
 
-		if (!strcmp(key, "DB_ADDR")) {
-			printf("\tFound DB_ADDR\n");
-			db->addr = value;
+		if (!strcmp(key, "DB_HOST")) {
+			printf("\tFound DB_HOST\n");
+			db->host = value;
 		} else if (!strcmp(key, "DB_USER")) {
 			printf("\tFound DB_USER\n");
 			db->user = value;
