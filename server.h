@@ -7,11 +7,13 @@
 #include <netinet/in.h>
 #include <arpa/inet.h>
 
+#include "db.h"
+
 #ifndef SERVER_H
 #define SERVER_H
 
 #define PORT 1337
-#define S_VERSION "0.0.2.6"
+#define S_VERSION "0.0.2.7"
 
 #define MODE_UVALID 0 // run w/ db (validate via db)
 #define MODE_NODB 1 // run w/o db (only user validation = name)
@@ -31,6 +33,24 @@ struct client_msg {
 	struct sockaddr_in *client_addr;
 	const char *msg;
 	int len;
+};
+
+/**
+ * Data structure for server configuration.
+ * @since 0.0.2.7
+ **/
+struct server_conf {
+
+};
+
+/**
+ * Data structure for parse_sconfig to populate; Contains
+ * server and database configuration information.
+ * @since 0.0.2.7
+ **/
+struct sconfig {
+	struct database_conf *database_conf;
+	struct server_conf *server_conf;
 };
 
 /**
@@ -105,5 +125,11 @@ void init_net();
  * @since 0.0.2.0
  **/
 void serve();
+
+/**
+ * Parse the server.conf file for configuration info.
+ * @since 0.0.2.7
+ **/
+struct sconfig *parse_sconfig();
 
 #endif

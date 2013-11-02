@@ -10,7 +10,7 @@
 #ifndef DB_H
 #define DB_H
 
-struct database {
+struct database_conf {
 	const char *addr;
 	const char *user;
 	const char *pass;
@@ -20,13 +20,7 @@ struct database {
  * Connect to database.
  * @since 0.0.2.3
  **/
-int db_connect();
-
-/**
- * Read server.conf if it exists.
- * @since 0.0.2.4
- **/
-struct database *db_parse_sconfig();
+int db_connect(struct database_conf *db);
 
 /**
  * Check whether or not a user exists.

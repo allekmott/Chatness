@@ -32,10 +32,9 @@ int server_mode = MODE_UVALID;
 int main(int argc, char *argv[]) {
 	handle_args(argc, argv);
 
-	struct database *db;
-
+	struct sconfig *sconfig = parse_sconfig();
 	if (server_mode == MODE_UVALID)
-		db_connect();
+		db_connect(sconfig->database_conf);
 
 	print_version();
 	init_net();
@@ -220,4 +219,47 @@ void serve() {
 			process_con(new_socket_fd, &client_addr);
 		}
 	}
+}
+
+// TODO patch memory leaks here (dbconf, serverconf)
+struct sconfig *parse_sconfig() {
+	printf("Parsing server.conf...\n");
+	struct sconfig *s_config = (struct sconfig *)
+			malloc(sizeof(struct sconfig));
+	struct database_conf *db = (struct database_conf *)
+			malloc(sizeof(struct database_conf));
+	struct server_conf *server = (struct server_conf *)
+			malloc(sizeof(struct server_conf));
+
+	FILE *sconfig;
+	if ((sconfig = fopen("server.conf", "rw")) == 0) {
+		printf("No server.conf.\nRun './server --config' to set up database access.\n");
+		exit(0);
+	}
+	// read the sconfig file
+	char *line;
+	while ((line = read_line(sconfig)) != NULL) {
+		char *key = strtok(line, "=");
+		char *value = strtok(NULL, "=");
+		if (key == NULL || value == NULL)
+			continue;
+
+		if (!strcmp(key, "DB_ADDR")) {
+			printf("\tFound DB_ADDR\n");
+			db->addr = value;
+		} else if (!strcmp(key, "DB_USER")) {
+			printf("\tFound DB_USER\n");
+			db->user = value;
+		} else if (!strcmp(key, "DB_PASS")) {
+			printf("\tFound DB_PASS\n");
+			db->pass = value;
+		}
+
+		free(line);
+	}
+
+	s_config->database_conf = db;
+	s_config->server_conf = server;
+
+	return s_config;
 }
