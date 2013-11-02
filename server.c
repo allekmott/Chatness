@@ -34,8 +34,8 @@ int main(int argc, char *argv[]) {
 
 	struct database *db;
 
-	/*if (server_mode == MODE_UVALID)
-		db = db_connect();*/
+	if (server_mode == MODE_UVALID)
+		db_connect();
 
 	print_version();
 	init_net();

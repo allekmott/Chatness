@@ -11,7 +11,7 @@
 #define SERVER_H
 
 #define PORT 1337
-#define S_VERSION "0.0.2.5"
+#define S_VERSION "0.0.2.6"
 
 #define MODE_UVALID 0 // run w/ db (validate via db)
 #define MODE_NODB 1 // run w/o db (only user validation = name)

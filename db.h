@@ -20,18 +20,18 @@ struct database {
  * Connect to database.
  * @since 0.0.2.3
  **/
-struct database *db_connect();
+int db_connect();
 
 /**
  * Read server.conf if it exists.
  * @since 0.0.2.4
  **/
-void db_read_sconfig(FILE *sconfig);
+struct database *db_parse_sconfig();
 
- /**
-  * Check whether or not a user exists.
-  * @since 0.0.2.3
-  **/
+/**
+ * Check whether or not a user exists.
+ * @since 0.0.2.3
+ **/
 int db_user_exists(char *username);
 
 
