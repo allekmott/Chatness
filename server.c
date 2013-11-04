@@ -39,6 +39,7 @@ int main(int argc, char *argv[]) {
 	print_version();
 	init_net();
 	serve();
+	free(sconfig);
 }
 
 void handle_args(int argc, char *argv[]) {

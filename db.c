@@ -14,7 +14,7 @@
 int db_connect(struct database_conf *db) {
 	printf("Connecting to database...\n");
 	printf("Database hostname: %s\n", db->host);
-	free(db);
+	printf("LOLJK, this is for a future version.\n\n");
 }
 
 
