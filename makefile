@@ -5,9 +5,9 @@
 CC=gcc
 CFLAGS=
 
-DEPS=chat.h server.h db.h
+DEPS=chat.h server.h
 
-SERVER_DEPS = chat.o server.o db.o
+SERVER_DEPS = chat.o server.o
 
 
 %.o: %.c $(DEPS)
