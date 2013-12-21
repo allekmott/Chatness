@@ -160,4 +160,10 @@ char *read_line(FILE *file);
 
 #define LINE_BUFFER_SIZE 128
 
+/**
+ * Prompt server admin for additions/modifications to chat.dat.
+ * @since 0.0.3.1
+ **/
+void chatdat_gen();
+
 #endif

@@ -25,8 +25,6 @@ static struct user *all_users;
 struct user *logged_in;
 FILE *chatdat;
 
-int server_mode = MODE_UVALID;
-
 
 int main(int argc, char *argv[]) {
 	handle_args(argc, argv);
@@ -38,6 +36,15 @@ int main(int argc, char *argv[]) {
 
 void handle_args(int argc, char *argv[]) {
 	// TODO that arg lib thing...
+	char opt_c;
+	while ((opt_c = getopt(argc, argv, "a")) != EOF)
+		switch (opt_c) {
+			case 'a': chatdat_gen(); exit(0);
+		}
+
+	argc -= optind;
+	argv += optind;
+	return;
 }
 
 void process_con(int socket_fd, struct sockaddr_in *client_addr) {

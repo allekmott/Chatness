@@ -294,3 +294,42 @@ char *read_line(FILE *file) {
 	line[total_read] = '\0';
 	return line;
 }
+
+#define CHATDAT_GEN_ADD 0
+#define CHATDAT_GEN_CHANGE_PWORD 1
+#define CHATDAT_GEN_CHANGE_UNAME 2
+#define CHATDAT_GEN_REMOVE_USER 3
+
+void chatdat_gen() {
+	printf("Chat.dat Generator\n");
+	while (decision >= 0) {
+		printf(" 0 - Add a user.\n");
+		printf(" 1 - Change a user's password.\n");
+		printf(" 2 - Change a user's name.\n");
+		printf(" 3 - Remove a user.\n");
+		printf("-1 - Exit\n");
+		printf("What would you like to do? ");
+
+		int decision = 0;
+		char decision_s[4];
+		fgets(decision_s, 4, stdin);
+		decision = atoi(decision_s);
+		switch (decision) {
+			case -1:
+				break;
+			case CHATDAT_GEN_ADD:
+				break;
+			case CHATDAT_GEN_CHANGE_PWORD:
+				break;
+			case CHATDAT_GEN_CHANGE_UNAME:
+				break;
+			case CHATDAT_GEN_REMOVE_USER:
+				break;
+			default:
+				printf("Invalid option.\n");
+				break;
+		}
+		printf("\n");
+	}
+	printf("Goodbye.\n");
+}

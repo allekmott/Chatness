@@ -11,10 +11,9 @@
 #define SERVER_H
 
 #define PORT 1337
-#define S_VERSION "0.0.3.0"
+#define S_VERSION "0.0.3.1"
 
-#define MODE_UVALID 0 // run w/ db (validate via db)
-#define MODE_NODB 1 // run w/o db (only user validation = name)
+// TODO: add encryption to chat.dat
 
 /**
  * Handle command-line arguments.
