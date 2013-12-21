@@ -15,8 +15,6 @@
 
 #include "chat.h"
 
-// TODO: MYSQL THIS CRAP. no. more. chat.dat.
-
 void error(char *err_msg) {
 	fprintf(stderr, "An error occurred while %s\n", err_msg);
 	exit(1);
@@ -98,7 +96,7 @@ struct user *chatdat_parse_users(FILE *chatdat) {
 
 	struct user **users = (struct user **) malloc(ubuffer_byte_size); // array of users 0-19
 
-	int ubuffers = 1;
+	int ubuffers = 1; // # of 'full buffer sizes' (keep track of allocation)
 	int cur_user_i = 0;
 	int num_this_buf = 0;
 
@@ -211,7 +209,12 @@ int chatdat_valid_string(const char *string) {
 }
 
 struct user *get_user(const char *username, struct user *start) {
-	while (start->next != NULL) {
+	if (start == NULL) { // No list to begin with
+		printf("User list empty.\n");
+		return NULL;
+	}
+
+	while (start != NULL) {	// Woohoo, serial search!
 		fprintf(stderr, "Is %s = %s? ", username, start->username);
 		if (!strcmp(username, start->username)) {
 			printf("Yes!\n");
@@ -220,7 +223,7 @@ struct user *get_user(const char *username, struct user *start) {
 		printf("Nope.\n");
 		start = start->next;
 	}
-	printf("NO USERS.\n");
+	printf("No matches found.\n");
 	return NULL;
 }
 
@@ -257,7 +260,7 @@ char *read_line(FILE *file) {
 		total_read,
 		this_lb;
 
-	if (file == NULL)
+	if (file == NULL) // File pointer null
 		error("reading line from null file pointer");
 
 	buffer_sizes = 1;
@@ -267,7 +270,7 @@ char *read_line(FILE *file) {
 	total_read = 0;
 	this_lb = 0;
 	int c;
-	while ((c = fgetc(file)) != EOF) {
+	while ((c = fgetc(file)) != EOF) { // Not at end of file
 		if (this_lb == 127) {
 			if ((line = realloc(line, ((++buffer_sizes) * LINE_BUFFER_SIZE * sizeof(char)))) == NULL)
 				error("reallocating memory for line");
