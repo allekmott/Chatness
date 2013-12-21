@@ -4,8 +4,12 @@ Chatness
 Command-line IRC client
 
 
-Documentation and Whatnot
-=========================
+Documentation
+=============
+Server Args
+-----------
++ -a - Add to chat.dat; Runs cdgen.
+
 chat.dat Format
 ---------------
 
