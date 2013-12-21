@@ -166,4 +166,10 @@ char *read_line(FILE *file);
  **/
 void chatdat_gen();
 
+/**
+ * Add a user to chat.dat.
+ * @since 0.0.3.2
+ **/
+void chatdat_gen_add_user(struct user *chatdat_users);
+
 #endif

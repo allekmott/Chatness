@@ -189,8 +189,6 @@ struct user *chatdat_parse_uline(const char *line) {
 		return NULL;
 	}
 
-	print_user_info(u);
-
 	return u;
 }
 
@@ -295,14 +293,23 @@ char *read_line(FILE *file) {
 	return line;
 }
 
-#define CHATDAT_GEN_ADD 0
+#define CHATDAT_GEN_ADD_USER 0
 #define CHATDAT_GEN_CHANGE_PWORD 1
 #define CHATDAT_GEN_CHANGE_UNAME 2
 #define CHATDAT_GEN_REMOVE_USER 3
 
 void chatdat_gen() {
 	printf("Chat.dat Generator\n");
-	while (decision >= 0) {
+
+	FILE *chatdat = fopen("chat.dat", "rw");
+	if (chatdat == NULL)
+		error("trying to open chat.dat");
+	struct user *all_users = chatdat_parse_users(chatdat);
+
+	int another = 1;
+	while (another) {
+		prompt:
+		printf("\n");
 		printf(" 0 - Add a user.\n");
 		printf(" 1 - Change a user's password.\n");
 		printf(" 2 - Change a user's name.\n");
@@ -316,8 +323,11 @@ void chatdat_gen() {
 		decision = atoi(decision_s);
 		switch (decision) {
 			case -1:
+				printf("Goodbye.\n");
+				return;
 				break;
-			case CHATDAT_GEN_ADD:
+			case CHATDAT_GEN_ADD_USER:
+				chatdat_gen_add_user(all_users);
 				break;
 			case CHATDAT_GEN_CHANGE_PWORD:
 				break;
@@ -327,9 +337,33 @@ void chatdat_gen() {
 				break;
 			default:
 				printf("Invalid option.\n");
+				goto prompt;
 				break;
 		}
 		printf("\n");
+		
+		printf("Would you like to do something else? (y/n) ");
+		char another_s[3];
+		fgets(another_s, 3, stdin);
+		switch (another_s[0]) {
+			case 'y':
+			case 'Y': another = 1; break;
+			case 'n':
+			case 'N': another = 0; break;
+		}
 	}
 	printf("Goodbye.\n");
+}
+
+void chatdat_gen_add_user(struct user *chatdat_users) {
+
+	char uname[27];
+	printf("Enter name of new user: ");
+	fgets(uname, 27, stdin);
+
+	// TODO: purge whitespace
+
+	if (get_user((const char *) uname, chatdat_users))
+		printf("The designated user already exists.\n");
+
 }

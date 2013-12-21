@@ -28,8 +28,8 @@ FILE *chatdat;
 
 int main(int argc, char *argv[]) {
 	handle_args(argc, argv);
-	open_chatdat();
 	print_version();
+	open_chatdat();
 	init_net();
 	serve();
 }
