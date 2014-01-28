@@ -34,6 +34,13 @@ int get_line(int sockfd, char *dest_buffer); // 0.0.1
 int sget_line(int sockfd, char *dest_buffer);
 
 /**
+ * Take 3 characters of user input. If characters resemble 'yes',
+ * will return true. Otherwise, false.
+ * @since 0.3.3
+ **/
+int yes_no();
+
+/**
  * Data structure for user
  * @since 0.0.2
 **/
@@ -73,7 +80,8 @@ char *login_err_txt(int err_code);
 /**
  * Constructs linked list of users from information in chat.dat file.
  * Returns first user in list on success, or NULL on error.
- * @note [WARNING] Allocates memory on heap. Corresponding
+ * @note [WARNING] Allocates memory on heap. Corresponding deallocation
+ * must be made (use free_user_chain).
  * @since 0.0.2
 **/
 struct user *chatdat_parse_users(FILE *chatdat);
@@ -171,5 +179,11 @@ void chatdat_gen();
  * @since 0.0.3.2
  **/
 void chatdat_gen_add_user(struct user *chatdat_users);
+
+/**
+ * Check validity of username.
+ * @since 0.0.3.3
+ **/
+int chatdat_valid_username(const char *uname);
 
 #endif

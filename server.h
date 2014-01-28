@@ -11,7 +11,7 @@
 #define SERVER_H
 
 #define PORT 1337
-#define S_VERSION "0.0.3.2"
+#define S_VERSION "0.0.3.3"
 
 // TODO: add encryption to chat.dat
 

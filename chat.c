@@ -57,6 +57,17 @@ int get_line(int sockfd, char *dest_buffer) {
 	return result;
 }
 
+int yes_no() {
+	char yes_no[4];
+	fgets(yes_no, 4, stdin);
+	switch (yes_no[0]) {
+		case 'y':
+		case 'Y': return 1;
+		case 'n':
+		case 'N': return 0;
+	}
+}
+
 int login(const char *username, const char *password, struct user *start) {
 	struct user *u =  get_user(username, start);
 
@@ -343,27 +354,45 @@ void chatdat_gen() {
 		printf("\n");
 		
 		printf("Would you like to do something else? (y/n) ");
-		char another_s[3];
-		fgets(another_s, 3, stdin);
-		switch (another_s[0]) {
-			case 'y':
-			case 'Y': another = 1; break;
-			case 'n':
-			case 'N': another = 0; break;
-		}
+		another = yes_no();
 	}
 	printf("Goodbye.\n");
 }
 
 void chatdat_gen_add_user(struct user *chatdat_users) {
-
+	int good_name = 1;
 	char uname[27];
-	printf("Enter name of new user: ");
+	prompt_uname:
+	printf("Enter name of new user (; to exit): ");
 	fgets(uname, 27, stdin);
 
-	// TODO: purge whitespace
+	// contains ';' = exit
+	if (strstr(uname, ";"))
+		return;
 
-	if (get_user((const char *) uname, chatdat_users))
+	if (!chatdat_valid_username(uname)) {
+		// no spaces
+		printf("Invalid username. Please omit whitespace and special characters (spaces, tabs, ;, etc.).\n");
+		good_name = 0;
+	} else if (get_user((const char *) uname, chatdat_users)) {
+		// can't exist already
 		printf("The designated user already exists.\n");
+		good_name = 0;
+	}
 
+	// name didn't meet requirements
+	if (!good_name) {
+		printf("Would you like to try a different name? (y/n) ");
+		if (yes_no())
+			goto prompt_uname;
+		else
+			return;
+	}
+}
+
+int chatdat_valid_username(const char *uname) {
+	if (strstr(uname, " ")) // TODO: insert regex here to check for special chars
+		return 0;
+
+	return 1;
 }
